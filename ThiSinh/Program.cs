@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 //M1 + m2 + m2 + điểmKV; nếu KV là 1 thì điểmKV là 0, nếu KV là 2 thì điểm KV là 1, nếu KV là 3 thì điểmKV là 2. 
 //Viết chương trình nhập thông tin cho n thí sinh (sbd, ht, m1, m2, m3, khu vực dự thi (1,2,3)). In Nhập điểm chuẩn và in danh sách trúng tuyển.
 
-
 namespace ThiSinh
 {
     class ThiSinh
@@ -32,14 +31,30 @@ namespace ThiSinh
             this.m2 = m2;
             this.m3 = m3;
         }
-        // Virtual: cho phép ghi đè
+
         public virtual void Nhap()
         {
             Console.Write("Nhap sbd: "); sbd = Console.ReadLine().Trim();
             Console.Write("Nhap ho ten: "); ht = Console.ReadLine().Trim();
-            Console.Write("Nhap diem 1: "); m1 = double.Parse(Console.ReadLine().Trim());
-            Console.Write("Nhap diem 2: "); m2 = double.Parse(Console.ReadLine().Trim());
-            Console.Write("Nhap diem 3: "); m3 = double.Parse(Console.ReadLine().Trim());
+            nhaplai:
+            try
+            {
+                Console.Write("Nhap diem 1: "); 
+                m1 = double.Parse(Console.ReadLine().Trim());
+                if(m1 < 0 || m1 > 10) throw new Exception("Diem khong hop le");
+                Console.Write("Nhap diem 2: "); 
+                m2 = double.Parse(Console.ReadLine().Trim());
+                if(m2 < 0 || m2 > 10) throw new Exception("Diem khong hop le");
+                Console.Write("Nhap diem 3: "); 
+                m3 = double.Parse(Console.ReadLine().Trim());
+                if(m3 < 0 || m3 > 10) throw new Exception("Diem khong hop le");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Loi: {0}", e.Message);
+                goto nhaplai;
+            }
+
         }
 
         public virtual void Xuat()
@@ -70,14 +85,25 @@ namespace ThiSinh
         public void Nhap()
         {
             base.Nhap();
-            Console.Write("Nhap khu vuc: "); khuVuc = int.Parse(Console.ReadLine().Trim());
+            nhaplai:
+            try
+            {
+                Console.Write("Nhap khu vuc: "); khuVuc = int.Parse(Console.ReadLine().Trim());
+                if (khuVuc < 1 || khuVuc > 3) throw new Exception("Khu vuc khong hop le");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Loi: {0}", e.Message);
+                goto nhaplai;
+            }
+            
         }
         public void Xuat() 
         {
             base.Xuat();
             Console.WriteLine("Khu vuc: {0}", khuVuc);
         }
-        public double TinhTongDiem()
+        public double TinhTongDiem ()
         {
             double diemKV = 0;
             if (khuVuc == 1) diemKV = 0;
